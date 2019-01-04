@@ -91,7 +91,8 @@ def inotified(spam_dir, ham_dir, spamcmd, hamcmd, delete):
 def main():
     (spam_dir, ham_dir, spamcmd, hamcmd, logfile, loglevel, delete, scan, oneshot) = getconfig()
     loglevel = getattr(logging, loglevel.upper(), 'INFO')
-    logging.basicConfig(format='%(levelname)s %(message)s', filename=logfile, level=loglevel)
+    logging.basicConfig(format='%(asctime)s %(levelname)s %(message)s',
+                        filename=logfile, level=loglevel)
     logging.info('Starting inotify-spamlearn.py')
     scanthread = threading.Thread(name='Scan Directories', target=scandirs,
                                   args=(spam_dir, ham_dir, spamcmd, hamcmd, delete))
