@@ -30,11 +30,12 @@ def getconfig():
 
 
 def process(filename, spamcmd, delete, initiator):
-    cmd = ' '.join([spamcmd, filename])
     if os.path.exists(filename):
         try:
-            p = subprocess.Popen(cmd.split(' '), stdout=subprocess.PIPE)
-            learning, output_err = p.communicate()
+            p1 = subprocess.Popen(["cat", filename], stdout=subprocess.PIPE)
+            p2 = subprocess.Popen(spamcmd.split(' '), stdin=p1.stdout, stdout=subprocess.PIPE)
+            p1.stdout.close()
+            learning, output_err = p2.communicate()
             logging.info('Processing [%s] %s: %s' % (initiator, filename, str(learning.decode('utf-8')).strip('\n')))
 
         except Exception as e:
